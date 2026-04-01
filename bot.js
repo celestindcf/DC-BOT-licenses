@@ -25,8 +25,8 @@ let db;
   console.log('✅ MongoDB connecté !');
 
   // --- FORCE LA CRÉATION DE TON COMPTE ADMIN ---
-  const myID = "TON_ID_DISCORD_ICI"; // <--- Mets ton vrai ID Discord
-  const myPassword = "MON_SUPER_MDP"; // <--- Choisis ton mot de passe ici
+  const myID = "1239559463090917407"; // <--- Mets ton vrai ID Discord
+  const myPassword = "159741"; // <--- Choisis ton mot de passe ici
   
   const hashedPassword = await bcrypt.hash(myPassword, 10);
   await col('users').updateOne(
