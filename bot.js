@@ -23,23 +23,20 @@ let db;
   await client.connect();
   db = client.db('licences');
   console.log('✅ MongoDB connecté !');
-
-  // --- CE BLOC DOIT ÊTRE ICI ---
-  const myID = "1239559463090917407"; 
-  const myPassword = "159741Dc"; 
+// --- FORCE LA CRÉATION DE TON COMPTE ADMIN ---
+  const myID = "1239559463090917407"; // Ton VRAI ID Discord
+  const myPassword = "TON_MOT_DE_PASSE_ICI"; // Choisis ton mot de passe (ex: "Admin123!")
   
   const hashedPassword = await bcrypt.hash(myPassword, 10);
   
-  // On utilise db.collection directement pour éviter l'erreur "col is not defined"
+  // On utilise db.collection pour être sûr que ça ne bug pas
   await db.collection('users').updateOne(
     { id: myID }, 
     { $set: { username: 'Admin', password: hashedPassword, role: 'admin' } }, 
     { upsert: true }
   );
-  console.log("⚠️ COMPTE ADMIN MIS À JOUR AVEC SUCCÈS !");
-}
-
-// La fonction col est définie ici, après connectDB
+  console.log(`⚠️ COMPTE ADMIN CRÉÉ POUR L'ID : ${myID}`);
+  // ---------------------------------------------
 function col(name) { return db.collection(name); }
 // ─── Discord Client ───────────────────────────────────────────────────────────
 const client = new Client({
