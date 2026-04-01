@@ -11,7 +11,7 @@ const path = require('path');
 const BOT_TOKEN = process.env.BOT_TOKEN || 'YOUR_BOT_TOKEN';
 const CLIENT_ID = process.env.CLIENT_ID || 'YOUR_CLIENT_ID';
 const OWNER_ID = process.env.OWNER_ID || 'YOUR_DISCORD_USER_ID'; // Ton ID Discord
-const MONGO_URL = process.env.MONGO_URL || 'YOUR_MONGODB_URL';
+const MONGO_URL = process.env.MONGO_URL || 'mongodb+srv://cdevaux112_db_user:39lSnyFFMsXw58w9@meeting-bot-1.pit4jyx.mongodb.net/?appName=meeting-bot-1';
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
 const API_SECRET = process.env.API_SECRET || 'api-secret-key'; // Clé secrète partagée avec les bots
 const PORT = process.env.PORT || 3000;
