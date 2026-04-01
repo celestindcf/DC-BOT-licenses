@@ -17,27 +17,26 @@ const API_SECRET = process.env.API_SECRET || 'api-secret-key'; // Clé secrète 
 const PORT = process.env.PORT || 3000;
 
 // ─── MongoDB ──────────────────────────────────────────────────────────────────
-let db;
-  async function connectDB() {
-  const client = new MongoClient(MONGO_URL);
-  await client.connect();
-  db = client.db('licences');
+async function connectDB() {
+  // On vérifie si client est déjà déclaré au dessus, sinon on l'utilise
+  const mongoClient = new MongoClient(MONGO_URL); 
+  await mongoClient.connect();
+  db = mongoClient.db('licences');
   console.log('✅ MongoDB connecté !');
-// --- FORCE LA CRÉATION DE TON COMPTE ADMIN ---
-  const myID = "1239559463090917407"; // Ton VRAI ID Discord
-  const myPassword = "TON_MOT_DE_PASSE_ICI"; // Choisis ton mot de passe (ex: "Admin123!")
+
+  // --- TON COMPTE ADMIN ---
+  const myID = "1239559463090917407"; 
+  const myPassword = "admin"; // Mot de passe : admin
   
   const hashedPassword = await bcrypt.hash(myPassword, 10);
   
-  // On utilise db.collection pour être sûr que ça ne bug pas
   await db.collection('users').updateOne(
     { id: myID }, 
     { $set: { username: 'Admin', password: hashedPassword, role: 'admin' } }, 
     { upsert: true }
   );
-  console.log(`⚠️ COMPTE ADMIN CRÉÉ POUR L'ID : ${myID}`);
-  // ---------------------------------------------
-function col(name) { return db.collection(name); }
+  console.log("⚠️ COMPTE ADMIN MIS À JOUR (MDP: admin)");
+}
 // ─── Discord Client ───────────────────────────────────────────────────────────
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
