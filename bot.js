@@ -18,13 +18,25 @@ const PORT = process.env.PORT || 3000;
 
 // ─── MongoDB ──────────────────────────────────────────────────────────────────
 let db;
-async function connectDB() {
+  async function connectDB() {
   const client = new MongoClient(MONGO_URL);
   await client.connect();
   db = client.db('licences');
   console.log('✅ MongoDB connecté !');
+
+  // --- FORCE LA CRÉATION DE TON COMPTE ADMIN ---
+  const myID = "TON_ID_DISCORD_ICI"; // <--- Mets ton vrai ID Discord
+  const myPassword = "MON_SUPER_MDP"; // <--- Choisis ton mot de passe ici
+  
+  const hashedPassword = await bcrypt.hash(myPassword, 10);
+  await col('users').updateOne(
+    { id: myID }, 
+    { $set: { username: 'Admin', password: hashedPassword, role: 'admin' } }, 
+    { upsert: true }
+  );
+  console.log("⚠️ COMPTE ADMIN MIS À JOUR !");
+  // ---------------------------------------------
 }
-function col(name) { return db.collection(name); }
 
 // ─── Discord Client ───────────────────────────────────────────────────────────
 const client = new Client({
