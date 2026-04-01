@@ -26,7 +26,7 @@ let db;
 
   // --- CE BLOC DOIT ÊTRE ICI ---
   const myID = "1239559463090917407"; 
-  const myPassword = "159741Dc*"; 
+  const myPassword = "159741Dc"; 
   
   const hashedPassword = await bcrypt.hash(myPassword, 10);
   
