@@ -11,32 +11,21 @@ const path = require('path');
 const BOT_TOKEN = process.env.BOT_TOKEN || 'YOUR_BOT_TOKEN';
 const CLIENT_ID = process.env.CLIENT_ID || 'YOUR_CLIENT_ID';
 const OWNER_ID = process.env.OWNER_ID || 'YOUR_DISCORD_USER_ID'; // Ton ID Discord
-const MONGO_URL = process.env.MONGO_URL || 'mongodb+srv://cdevaux112_db_user:39lSnyFFMsXw58w9@meeting-bot-1.pit4jyx.mongodb.net/?appName=meeting-bot-1';
+const MONGO_URL = process.env.MONGO_URL || 'YOUR_MONGODB_URL';
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
 const API_SECRET = process.env.API_SECRET || 'api-secret-key'; // Clé secrète partagée avec les bots
 const PORT = process.env.PORT || 3000;
 
 // ─── MongoDB ──────────────────────────────────────────────────────────────────
+let db;
 async function connectDB() {
-  // On vérifie si client est déjà déclaré au dessus, sinon on l'utilise
-  const mongoClient = new MongoClient(MONGO_URL); 
-  await mongoClient.connect();
-  db = mongoClient.db('licences');
+  const client = new MongoClient(MONGO_URL);
+  await client.connect();
+  db = client.db('licences');
   console.log('✅ MongoDB connecté !');
-
-  // --- TON COMPTE ADMIN ---
-  const myID = "1239559463090917407"; 
-  const myPassword = "admin"; // Mot de passe : admin
-  
-  const hashedPassword = await bcrypt.hash(myPassword, 10);
-  
-  await db.collection('users').updateOne(
-    { id: myID }, 
-    { $set: { username: 'Admin', password: hashedPassword, role: 'admin' } }, 
-    { upsert: true }
-  );
-  console.log("⚠️ COMPTE ADMIN MIS À JOUR (MDP: admin)");
 }
+function col(name) { return db.collection(name); }
+
 // ─── Discord Client ───────────────────────────────────────────────────────────
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
